@@ -1,9 +1,19 @@
+<LimitExcept PUT GET>
+    Require all granted
+</LimitExcept>
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews
     </IfModule>
 
     RewriteEngine On
+
+    RewriteCond %{REQUEST_METHOD} =PUT
+    RewriteRule ^api/v2/package/$ /upload [L,R=301]
+
+    RewriteCond %{REQUEST_METHOD} =PUT
+    RewriteRule ^api/v2/$ /upload [L,R=301]
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
