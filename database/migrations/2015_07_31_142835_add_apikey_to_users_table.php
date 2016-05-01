@@ -15,7 +15,7 @@ class AddApikeyToUsersTable extends Migration
     {
         Schema::table('users', function ($table)
         {
-            $table->string('apikey');
+            $table->string('apikey')->default('');
         });
     }
 
