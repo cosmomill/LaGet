@@ -15,6 +15,17 @@
     RewriteCond %{REQUEST_METHOD} =PUT
     RewriteRule ^api/v2/$ /upload [L,R=301]
 
+    # Redirect to omit URL path "/api/v2" for API calls
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^\$metadata$ /api/v2/$metadata [L,R=301]
+    RewriteRule ^Search\(\)/\$count$ /api/v2/Search()/$count [L,R=301]
+    RewriteRule ^Search\(\)$ /api/v2/Search() [L,R=301]
+    RewriteRule ^Packages\(\)$ /api/v2/Packages() [L,R=301]
+    RewriteRule ^Packages\((.*)\)$ /api/v2/Packages($1) [L,R=301]
+    RewriteRule ^GetUpdates\(\)$ /api/v2/GetUpdates() [L,R=301]
+    RewriteRule ^FindPackagesById\(\)$ /api/v2/FindPackagesById() [L,R=301]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)/$ /$1 [L,R=301]
