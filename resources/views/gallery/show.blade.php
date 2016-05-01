@@ -26,6 +26,7 @@
                 @if(!empty($package->license_url))
                     <a href="{{$package->license_url}}">License</a><br/>
                 @endif
+                <a href="{{$package->getDownloadUrl()}}">Download</a><br/>
             </div>
 
             @if(!empty($package->release_notes))
