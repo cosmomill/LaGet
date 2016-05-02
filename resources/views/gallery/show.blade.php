@@ -9,7 +9,7 @@
             <div class="col m8">
                 <h3>{{ $package->title }} {{ $package->version }}</h3>
                 <p>
-                    {{ empty($package->description) ? $package->summary : $package->description }}
+                    {!! empty($package->description) ? Markdown::convertToHtml($package->summary) : Markdown::convertToHtml($package->description) !!}
                 </p>
                 @if(config('laget.chocolatey_feed'))
                     <p>To install {{ $package->title }}, run the following command from the command line or from PowerShell:</p>
@@ -55,7 +55,7 @@
                 @if(!empty($package->release_notes))
                     <h5>Release Notes</h5>
                     <p>
-                        <pre>{{ $package->release_notes }}</pre>
+                        {!! Markdown::convertToHtml($package->release_notes) !!}
                     </p>
                 @endif
 
