@@ -114,7 +114,8 @@ class NugetPackage extends Model {
     {
         if (!empty($this->icon_url)
                 && (strpos($this->icon_url, 'http://') === 0
-                    || strpos($this->icon_url, 'https://') === 0))
+                    || strpos($this->icon_url, 'https://') === 0
+                        || strpos($this->icon_url, 'data:image/') === 0))
         {
             return $this->icon_url;
         }
