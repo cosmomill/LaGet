@@ -2,6 +2,7 @@
 
 namespace Laget;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Model;
 use Laget\Atom\AtomElement;
 
@@ -111,9 +112,23 @@ class NugetPackage extends Model {
 
     public function getIconUrl()
     {
-        return !empty($this->icon_url)
-               && (strpos($this->icon_url, 'http://') === 0
-                   || strpos($this->icon_url, 'https://') === 0) ? $this->icon_url : '/images/packageDefaultIcon.png';
+        if (!empty($this->icon_url)
+                && (strpos($this->icon_url, 'http://') === 0
+                    || strpos($this->icon_url, 'https://') === 0))
+        {
+            return $this->icon_url;
+        }
+        else
+        {
+            if (Config::get('laget.chocolatey_feed'))
+            {
+                return '/images/chocolateyDefaultIcon.svg';
+            }
+            else
+            {
+                return '/images/nugetDefaultIcon.svg';
+            }
+        }
     }
 
     /**
