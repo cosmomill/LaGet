@@ -15,26 +15,26 @@
                     <p>To install {{ $package->title }}, run the following command from the command line or from PowerShell:</p>
                     <div class="card teal black">
                         <div class="card-content">
-                        <code class="white-text">C:\> choco install {{ $package->package_id }}</code>
+                        <code class="white-text"><span style="user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;">C:\> </span>choco install {{ $package->package_id }}</code>
                         </div>
                     </div>
                     <p>To upgrade {{ $package->title }}, run the following command from the command line or from PowerShell:</p> 
                     <div class="card teal black">
                         <div class="card-content">
-                        <code class="white-text">C:\> choco upgrade {{ $package->package_id }}</code>
+                        <code class="white-text"><span style="user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;">C:\> </span>choco upgrade {{ $package->package_id }}</code>
                         </div>
                     </div>
                 @else
                     <p>To install {{ $package->title }}, run the following command in the <a href="https://docs.nuget.org/docs/start-here/using-the-package-manager-console">Package Manager Console</a>:</p>
                     <div class="card teal black">
                         <div class="card-content">
-                        <code class="white-text">PM> Install-Package {{ $package->package_id }}</code>
+                        <code class="white-text"><span style="user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;">PM> </span>Install-Package {{ $package->package_id }}</code>
                         </div>
                     </div>
                 @endif
             </div>
             <div class="col m4">
-                <div class="img-wrapper" style="max-width: 150px;">
+                <div class="img-wrapper section" style="max-width: 150px;">
                     <img class="responsive-img" src="{{ $package->getIconUrl() }}" alt="{{ $package->package_id }}"/>
                 </div>
                 <strong>{{ $package->download_count }} downloads</strong><br/>
@@ -90,7 +90,7 @@
                     <ul>
                         @foreach(explode('|', $package->dependencies) as $dependency)
                             <?php $split = explode(':', $dependency); ?>
-                            <li><a href="{{route('packages.show', $split[0]) }}">{{ $split[0] }}</a> (&ge; {{ $split[1] }})</li>
+                            <li><a href="{{route('packages.show', $split[0]) }}">{{ $split[0] }}</a>@if(!empty($split[1])) (&ge; {{ $split[1] }})@endif</li>
                         @endforeach
                     </ul>
                 @endif
