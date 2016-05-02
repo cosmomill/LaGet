@@ -16,4 +16,5 @@ return [
      * Packages
      */
     'hash_algorithm' => 'SHA512',
+    'chocolatey_feed' => false,
     ];
