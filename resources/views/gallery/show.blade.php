@@ -134,5 +134,13 @@
                 </table>
             </div>
         </div>
+        @if(config('laget.enable_hashover'))
+            <div class="row">
+                <div class="col m12">
+                    <div id="hashover"></div>
+                    <script type="text/javascript" src="/hashover/hashover.js"></script>
+                </div>
+            </div>
+        @endif
     </div>
 @endsection

@@ -61,6 +61,13 @@ nuget.exe push Foo.nupkg -Source http://example.com/api/v2/
 
 8 - Edit `config/laget.php` to change the sites name, shortname, description and links.
 
+Optional Steps
+==============
+
+To use LaGet as [Chocolatey package gallery](https://github.com/chocolatey/choco/wiki/How-To-Host-Feed) edit `config/laget.php` and set `chocolatey_feed` to `true`.
+
+To enable the comment system install [HashOver 2.0](https://github.com/jacobwb/hashover-next) in `public/hashover`. Edit `config/laget.php` and set `enable_hashover` to `true`. Please follow the installation instructions [here](http://tildehash.com/?page=hashover). Edit `public/hashover/scripts/settings.php` and change `$this->httpRoot = $http_directory;` to `$this->httpRoot = "/" . $http_directory;`.
+
 Examples
 ========
 [SampSharp](http://sampsharp.timpotze.nl/) repository at at http://nuget.timpotze.nl/.

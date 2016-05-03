@@ -12,9 +12,10 @@ return [
         ['href' => 'http://web.site', 'title' => 'Link 2'],
         ['href' => 'http://web.site', 'title' => 'Link 3'],
     ],
+    'chocolatey_feed' => false,
+    'enable_hashover' => false, 
     /*
      * Packages
      */
     'hash_algorithm' => 'SHA512',
-    'chocolatey_feed' => false,
     ];
