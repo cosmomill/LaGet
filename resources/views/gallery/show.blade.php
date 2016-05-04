@@ -48,6 +48,9 @@
                     <a href="{{$package->license_url}}">License</a><br/>
                 @endif
                 <a href="{{$package->getDownloadUrl()}}">Download</a><br/>
+                @if(config('laget.clickonce_url'))
+                    <a href="{{ config('laget.clickonce_url') }}{{ $package->package_id }}">ClickOnce Install</a><br/>
+                @endif
             </div>
         </div>
         <div class="row">

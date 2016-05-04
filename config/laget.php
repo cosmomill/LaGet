@@ -13,7 +13,8 @@ return [
         ['href' => 'http://web.site', 'title' => 'Link 3'],
     ],
     'chocolatey_feed' => false,
-    'enable_hashover' => false, 
+    'enable_hashover' => false,
+    'clickonce_url' => '',
     /*
      * Packages
      */
