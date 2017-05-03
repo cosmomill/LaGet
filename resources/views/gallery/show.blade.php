@@ -93,7 +93,7 @@
                     <ul>
                         @foreach(explode('|', $package->dependencies) as $dependency)
                             <?php $split = explode(':', $dependency); ?>
-                            <li><a href="{{route('packages.show', $split[0]) }}">{{ $split[0] }}</a>@if(!empty($split[1])) (&ge; {{ $split[1] }})@endif</li>
+                            <li><a href="{{route('packages.show', $split[0]) }}">{{ $split[0] }}</a>@if(!empty($split[1])) (&ge; {{ $split[1] }})@endif @if(!empty($split[2])) <i>{{ $split[2] }}</i>@endif</li>
                         @endforeach
                     </ul>
                 @endif

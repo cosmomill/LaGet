@@ -92,49 +92,59 @@ class NuspecFile {
 
         if ($dependenciesElement)
         {
+            $dependenciesElement = self::dependenciesHelper($nuspec->metadata->dependencies);
             $dependencies = [];
 
             // process v1 types
-            $v1Dependencies = is_array($dependenciesElement->dependency)
-                ? $dependenciesElement->dependency
-                : [$dependenciesElement->dependency];
-
-            foreach ($v1Dependencies as $dep)
+            if (array_key_exists('dependency', $dependenciesElement))
             {
-                if (!isset($dep['id'])) continue;
-                array_push($dependencies, [
-                    'id'              => (string)$dep['id'],
-                    'targetFramework' => null,
-                    'version'         => isset($dep['version'])
-                        ? (string)$dep['version']
-                        : null
-                ]);
-            }
+                $v1Dependencies = is_array($dependenciesElement['dependency'])
+                    ? $dependenciesElement['dependency']
+                    : [$dependenciesElement['dependency']];
 
-            $v2DepGroups = is_array($dependenciesElement->group)
-                ? $dependenciesElement->group
-                : [$dependenciesElement->group];
-
-            foreach ($v2DepGroups as $depGroup)
-            {
-                $targetFramework = isset($dep['targetFramework'])
-                    ? (string)$dep['targetFramework']
-                    : null;
-
-                $v2Dependencies = is_array($depGroup->dependency)
-                    ? $depGroup->dependency
-                    : [$depGroup->dependency];
-
-                foreach ($v2Dependencies as $dep)
+                foreach ($v1Dependencies as $dep)
                 {
-                    if (!isset($dep['id'])) continue;
+                    if (!isset($dep['attributes']['id'])) continue;
                     array_push($dependencies, [
-                        'id'              => (string)$dep['id'],
-                        'targetFramework' => $targetFramework,
-                        'version'         => isset($dep['version'])
-                            ? (string)$dep['version']
+                        'id'              => $dep['attributes']['id'],
+                        'targetFramework' => null,
+                        'version'         => isset($dep['attributes']['version'])
+                            ? $dep['attributes']['version']
                             : null
                     ]);
+                }
+            }
+
+            if (array_key_exists('group', $dependenciesElement))
+            {
+                $v2DepGroups = is_array($dependenciesElement['group'])
+                    ? $dependenciesElement['group']
+                    : [$dependenciesElement['group']];
+                
+                foreach ($v2DepGroups as $depGroup)
+                {
+                    $targetFramework = isset($depGroup['attributes']['targetFramework'])
+                        ? $depGroup['attributes']['targetFramework']
+                        : null;
+                
+                    if (array_key_exists('dependency', $depGroup))
+                    {
+                        $v2Dependencies = is_array($depGroup['dependency'])
+                            ? $depGroup['dependency']
+                            : [$depGroup['dependency']];
+                        
+                        foreach ($v2Dependencies as $dep)
+                        {
+                            if (!isset($dep['attributes']['id'])) continue;
+                            array_push($dependencies, [
+                                'id'              => $dep['attributes']['id'],
+                                'targetFramework' => $targetFramework,
+                                'version'         => isset($dep['attributes']['version'])
+                                    ? $dep['attributes']['version']
+                                    : null
+                            ]);
+                        }
+                    }
                 }
             }
 
@@ -173,5 +183,38 @@ class NuspecFile {
         $nuSpecContents = $nupkg->getNuspecFileContent();
 
         return $nuSpecContents === false ? null : self::fromXML($nuSpecContents);
+    }
+
+    /**
+     * Dependencies helper
+     *
+     * @param $xml The SimpleXML object.
+     * @return array The converted SimpleXML object.
+     */
+    public static function dependenciesHelper($xml)
+    {
+        $arr = array();
+
+        foreach ($xml->children() as $r)
+        {
+            if (count($r->children()) == 0)
+            {
+                $valArr = array();
+                foreach($r->attributes() as $name => $value) {
+                    $valArr[$name] = (string)$value;
+                }
+                $arr[$r->getName()][]['attributes'] = $valArr;
+            }
+            else
+            {
+                $valArr = array();
+                foreach($r->attributes() as $name => $value) {
+                    $valArr[$name] = (string)$value;
+                }
+                $arr[$r->getName()][] = array('attributes' => $valArr) + self::dependenciesHelper($r);
+            }
+        }
+
+        return $arr;
     }
 }
